@@ -4,6 +4,8 @@ BU='https://github.com/MYDan/mayi/archive'
 VU='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
 BP='/opt/mydan'
 
+mkdir -p $BP/etc
+
 > $BP/etc/env.tmp
 if [ -n "$ORGANIZATION" ];then
     echo "ORGANIZATION=$ORGANIZATION" >> $BP/etc/env.tmp
