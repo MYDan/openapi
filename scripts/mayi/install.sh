@@ -65,7 +65,7 @@ rm -f mayi.$version.tar.gz
 echo $version > $BP/dan/.version
 
 if [ -f $BP/etc/env ];then
-    /opt/mydan/dan/bootstrap/bin/bootstrap --install
+    $BP/dan/bootstrap/bin/bootstrap --install
 fi
 
 echo OK
