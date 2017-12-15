@@ -40,6 +40,6 @@ rm -rf mayi-mayi.$version
 rm -f mayi.$version.tar.gz
 
 
-echo $version > /$BP/dan/.version
+echo $version > $BP/dan/.version
 
 echo OK
