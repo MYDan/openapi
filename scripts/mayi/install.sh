@@ -24,7 +24,13 @@ if [ -n "$MYDAN_UPDATE" ];then
     echo "MYDAN_UPDATE=$MYDAN_UPDATE" >> $BP/etc/env.tmp
 fi
 
-mv $BP/etc/env.tmp $BP/etc/env
+if [[ -s $BP/etc/env.tmp ]];then
+    mv $BP/etc/env.tmp $BP/etc/env
+else
+    rm $BP/etc/env
+    rm $BP/etc/env.tmp
+fi
+
 
 if [ -d "$BP/dan" ]; then
     echo 'Already installed'
@@ -55,5 +61,9 @@ rm -rf mayi-mayi.$version
 rm -f mayi.$version.tar.gz
 
 echo $version > $BP/dan/.version
+
+if [ -f $BP/etc/env ];then
+    /opt/mydan/dan/bootstrap/bin/bootstrap --install
+fi
 
 echo OK
