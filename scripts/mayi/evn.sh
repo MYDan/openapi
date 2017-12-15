@@ -3,7 +3,7 @@
 BP='/opt/mydan'
 
 if [ -f $BP/dan/.lock ]; then
-    echo "The mydan is locked"
+    echo "The mayi is locked"
     exit;
 fi
 
