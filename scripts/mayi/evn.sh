@@ -2,6 +2,11 @@
 
 BP='/opt/mydan'
 
+if [ -f $BP/dan/.lock ]; then
+    echo "The mydan is locked"
+    exit;
+fi
+
 mkdir -p $BP/etc
 
 > $BP/etc/env.tmp

@@ -4,6 +4,11 @@ BU='https://github.com/MYDan/mayi/archive'
 VU='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
 BP='/opt/mydan'
 
+if [ -f $BP/dan/.lock ]; then
+    echo "The mydan is locked"
+    exit;
+fi
+
 if [ ! -d "$BP/dan" ]; then
     echo 'Not yet installed'
 fi
