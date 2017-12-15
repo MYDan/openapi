@@ -1,6 +1,5 @@
 #!/bin/bash
 
-OS='linux'
 BU='https://github.com/MYDan/mayi/archive'
 VU='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
 BP='/opt/mydan'
@@ -8,6 +7,16 @@ BP='/opt/mydan'
 if [ ! -d "$BP/dan" ]; then
     echo 'Not yet installed'
 fi
+
+> $BP/etc/env.tmp
+if [ -n "$MYDAN_KEY_UPDATE" ];then
+    echo "MYDAN_KEY_UPDATE=$MYDAN_KEY_UPDATE" >> $BP/etc/env.tmp
+fi
+if [ -n "$MYDAN_UPDATE" ];then
+    echo "MYDAN_UPDATE=$MYDAN_UPDATE" >> $BP/etc/env.tmp
+fi
+mv $BP/etc/env.tmp $BP/etc/env
+
 
 version=$(curl -s $VU)
 
