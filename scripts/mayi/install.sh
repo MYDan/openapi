@@ -34,8 +34,8 @@ fi
 if [[ -s $BP/etc/env.tmp ]];then
     mv $BP/etc/env.tmp $BP/etc/env
 else
-    rm $BP/etc/env
-    rm $BP/etc/env.tmp
+    rm -f $BP/etc/env
+    rm -f $BP/etc/env.tmp
 fi
 
 
