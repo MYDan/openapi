@@ -1,50 +1,50 @@
 #!/bin/bash
 
-BU='https://github.com/MYDan/mayi/archive'
-VU='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
-BP='/opt/mydan'
+MAYIURL='https://github.com/MYDan/mayi/archive'
+VERSIONURL='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
+INSTALLERDIR='/opt/mydan'
 
-if [ -f $BP/dan/.lock ]; then
+if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
     exit;
 fi
 
-mkdir -p $BP/etc
+mkdir -p $INSTALLERDIR/etc
 
-> $BP/etc/env.tmp
+> $INSTALLERDIR/etc/env.tmp
 if [ -n "$ORGANIZATION" ];then
-    echo "ORGANIZATION=$ORGANIZATION" >> $BP/etc/env.tmp
+    echo "ORGANIZATION=$ORGANIZATION" >> $INSTALLERDIR/etc/env.tmp
 fi
 
 if [ -n "$MYDAN_KEY_UPDATE" ];then
-    echo "MYDAN_KEY_UPDATE=$MYDAN_KEY_UPDATE" >> $BP/etc/env.tmp
+    echo "MYDAN_KEY_UPDATE=$MYDAN_KEY_UPDATE" >> $INSTALLERDIR/etc/env.tmp
 fi
 
 if [ -n "$MYDAN_PROC_UPDATE" ];then
-    echo "MYDAN_PROC_UPDATE=$MYDAN_PROC_UPDATE" >> $BP/etc/env.tmp
+    echo "MYDAN_PROC_UPDATE=$MYDAN_PROC_UPDATE" >> $INSTALLERDIR/etc/env.tmp
 fi
 if [ -n "$MYDAN_WHITELIST_UPDATE" ];then
-    echo "MYDAN_WHITELIST_UPDATE=$MYDAN_WHITELIST_UPDATE" >> $BP/etc/env.tmp
+    echo "MYDAN_WHITELIST_UPDATE=$MYDAN_WHITELIST_UPDATE" >> $INSTALLERDIR/etc/env.tmp
 fi
 
 if [ -n "$MYDAN_UPDATE" ];then
-    echo "MYDAN_UPDATE=$MYDAN_UPDATE" >> $BP/etc/env.tmp
+    echo "MYDAN_UPDATE=$MYDAN_UPDATE" >> $INSTALLERDIR/etc/env.tmp
 fi
 
-if [[ -s $BP/etc/env.tmp ]];then
-    mv $BP/etc/env.tmp $BP/etc/env
+if [[ -s $INSTALLERDIR/etc/env.tmp ]];then
+    mv $INSTALLERDIR/etc/env.tmp $INSTALLERDIR/etc/env
 else
-    rm -f $BP/etc/env
-    rm -f $BP/etc/env.tmp
+    rm -f $INSTALLERDIR/etc/env
+    rm -f $INSTALLERDIR/etc/env.tmp
 fi
 
 
-if [ -d "$BP/dan" ]; then
+if [ -d "$INSTALLERDIR/dan" ]; then
     echo 'Already installed'
     exit  
 fi
 
-version=$(curl -s $VU)
+version=$(curl -s $VERSIONURL)
 
 if [[ $version =~ ^[0-9]{14}$ ]];then
     echo "version: $version"
@@ -53,7 +53,7 @@ else
     exit;
 fi
 
-wget -O mayi.$version.tar.gz $BU/mayi.$version.tar.gz
+wget -O mayi.$version.tar.gz $MAYIURL/mayi.$version.tar.gz
 
 tar -zxvf mayi.$version.tar.gz
 
@@ -67,10 +67,10 @@ cd -
 rm -rf mayi-mayi.$version
 rm -f mayi.$version.tar.gz
 
-echo $version > $BP/dan/.version
+echo $version > $INSTALLERDIR/dan/.version
 
-if [ -f $BP/etc/env ];then
-    $BP/dan/bootstrap/bin/bootstrap --install
+if [ -f $INSTALLERDIR/etc/env ];then
+    $INSTALLERDIR/dan/bootstrap/bin/bootstrap --install
 fi
 
 echo OK
