@@ -51,7 +51,7 @@ localperl=$(head -n 1 /$INSTALLERDIR/dan/tools/range )
 
 if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
     echo "This is the latest version of Mayi";
-    exit;
+    exit 1;
 fi
 
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
