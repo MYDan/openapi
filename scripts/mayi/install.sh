@@ -85,7 +85,7 @@ do
 done
 
 if [ ! -x "$PERL" ]; then
-  echo "Need /usr/bin/perl or /usr/local/bin/perl to use $0"
+  echo "Need /opt/mydan/perl/bin/perl /usr/bin/perl or /usr/local/bin/perl to use $0"
   clean_exit 2
 fi
 
