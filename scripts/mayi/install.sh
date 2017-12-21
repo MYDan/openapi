@@ -98,7 +98,7 @@ cd - || clean_exit 1
 rm -rf mayi-mayi.$version
 rm -f $LOCALINSTALLER
 
-echo "$version:$PERL" > $INSTALLERDIR/dan/.version
+echo "$version" > $INSTALLERDIR/dan/.version
 
 if [ -f $INSTALLERDIR/etc/env ];then
     $INSTALLERDIR/dan/bootstrap/bin/bootstrap --install
