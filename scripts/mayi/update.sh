@@ -50,7 +50,7 @@ fi
 localperl=$(head -n 1 /$INSTALLERDIR/dan/tools/range )
 
 if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
-    echo "It's the latest version: $version";
+    echo "mayi's the latest version: $version";
     exit;
 fi
 
