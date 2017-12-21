@@ -66,6 +66,7 @@ fi
 
 clean_exit () {
     [ -f $LOCALINSTALLER ] && rm $LOCALINSTALLER
+    [ -d mayi-mayi.$version ] && rm -rf mayi-mayi.$version
     exit $1
 }
 
