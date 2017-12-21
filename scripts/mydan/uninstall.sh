@@ -16,7 +16,9 @@ do
 done
 
 if [ "X$OS" == "X$o" ] && [ "X$ARCH" == "X$a" ]; then
-    curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/uninstall.sh |bash
+    curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/uninstall.sh |bash || exit 1
 fi
 
-curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/uninstall.sh |bash
+curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/uninstall.sh |bash || exit
+
+echo mydan uninstall OK

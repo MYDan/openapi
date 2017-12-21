@@ -23,10 +23,12 @@ do
 done
 
 if [ "X$OS" == "X$o" ] && [ "X$ARCH" == "X$a" ]; then
-    curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/install.sh |bash
+    curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/install.sh |bash || exit 1
 else
-    checktool cpan   
-    cpan install MYDan
+    checktool cpan
+    cpan install MYDan || exit 1
 fi
 
-curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/install.sh |bash
+curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/install.sh |bash || exit
+
+echo mydan install OK
