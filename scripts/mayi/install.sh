@@ -82,7 +82,7 @@ cd mayi-mayi.$version || clean_exit 1
 # loop thru available well known Perl installations
 for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
 do
-    [ -x "$PERL" ] && echo "Using Perl <$PERL>" && break
+    [ -x "$PERL" ] && echo "Using Perl $PERL" && break
 done
 
 if [ ! -x "$PERL" ]; then

@@ -40,7 +40,7 @@ localversion=$(cat /$INSTALLERDIR/dan/.version )
 # loop thru available well known Perl installations
 for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
 do
-    [ -x "$PERL" ] && echo "Using Perl <$PERL>" && break
+    [ -x "$PERL" ] && echo "Using Perl $PERL" && break
 done
 if [ ! -x "$PERL" ]; then
   echo "Need /opt/mydan/perl/bin/perl /usr/bin/perl or /usr/local/bin/perl to use $0"
@@ -50,7 +50,7 @@ fi
 localperl=$(head -n 1 /$INSTALLERDIR/dan/tools/range )
 
 if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
-    echo "It's the latest version: $version : $PERL";
+    echo "It's the latest version: $version";
     exit;
 fi
 
