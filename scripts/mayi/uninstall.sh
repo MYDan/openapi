@@ -1,10 +1,10 @@
 #!/bin/bash
 
-BP=/opt/mydan
-if [ -f $BP/dan/.lock ]; then
+INSTALLERDIR=/opt/mydan
+if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
     exit;
 fi
 
-$BP/dan/bootstrap/bin/bootstrap --uninstall
-rm -rf $BP/{bin,box,dan,etc,var,tmp}
+$INSTALLERDIR/dan/bootstrap/bin/bootstrap --uninstall
+rm -rf $INSTALLERDIR/{bin,box,dan,etc,var,tmp}
