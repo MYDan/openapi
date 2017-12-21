@@ -58,7 +58,7 @@ fi
 version=$(curl -s $VERSIONURL)
 
 if [[ $version =~ ^[0-9]{14}$ ]];then
-    echo "version: $version"
+    echo "mayi version: $version"
 else
     echo "get version fail"
     exit;

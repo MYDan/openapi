@@ -29,7 +29,7 @@ checktool head
 version=$(curl -s $VERSIONURL)
 
 if [[ $version =~ ^[0-9]{14}$ ]];then
-    echo "version: $version"
+    echo "mayi version: $version"
 else
     echo "get version fail"
     exit;
@@ -50,7 +50,7 @@ fi
 localperl=$(head -n 1 /$INSTALLERDIR/dan/tools/range )
 
 if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
-    echo "mayi's the latest version: $version";
+    echo "This is the latest version of Mayi";
     exit;
 fi
 
