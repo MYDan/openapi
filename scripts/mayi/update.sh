@@ -1,19 +1,32 @@
 #!/bin/bash
 
-BU='https://github.com/MYDan/mayi/archive'
-VU='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
-BP='/opt/mydan'
+MAYIURL='https://github.com/MYDan/mayi/archive'
+VERSIONURL='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
+INSTALLERDIR='/opt/mydan'
 
-if [ -f $BP/dan/.lock ]; then
+if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
     exit;
 fi
 
-if [ ! -d "$BP/dan" ]; then
+if [ ! -d "$INSTALLERDIR/dan" ]; then
     echo 'Not yet installed'
 fi
 
-version=$(curl -s $VU)
+checktool() {
+    if ! type $1 >/dev/null 2>&1; then
+        echo "Need tool: $1"
+        exit 1;
+    fi
+}
+
+checktool curl
+checktool wget
+checktool tar
+checktool cat
+checktool head
+
+version=$(curl -s $VERSIONURL)
 
 if [[ $version =~ ^[0-9]{14}$ ]];then
     echo "version: $version"
@@ -22,28 +35,47 @@ else
     exit;
 fi
 
-localversion=$(cat /$BP/dan/.version )
+localversion=$(cat /$INSTALLERDIR/dan/.version )
 
-if [ "X$localversion" == "X$version" ]; then
-    echo "It's the latest version";
+# loop thru available well known Perl installations
+for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
+do
+    [ -x "$PERL" ] && echo "Using Perl <$PERL>" && break
+done
+if [ ! -x "$PERL" ]; then
+  echo "Need /opt/mydan/perl/bin/perl /usr/bin/perl or /usr/local/bin/perl to use $0"
+  exit 1
+fi
+
+localperl=$(head -n 1 /$INSTALLERDIR/dan/tools/range )
+
+if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
+    echo "It's the latest version: $version : $PERL";
     exit;
 fi
 
-wget -O mayi.$version.tar.gz $BU/mayi.$version.tar.gz
+LOCALINSTALLER=$(mktemp mayi.XXXXXX)
+clean_exit () {
+    [ -f $LOCALINSTALLER ] && rm $LOCALINSTALLER
+    [ -d mayi-mayi.$version ] && rm -rf mayi-mayi.$version
+    exit $1
+}
 
-tar -zxvf mayi.$version.tar.gz
+wget -O $LOCALINSTALLER $MAYIURL/mayi.$version.tar.gz || clean_exit 1
 
-cd mayi-mayi.$version
+tar -zxvf $LOCALINSTALLER || clean_exit 1
 
-/opt/mydan/perl/bin/perl Makefile.PL
+cd mayi-mayi.$version || clean_exit 1
+
+$PERL Makefile.PL
 make
 make install dan=1 box=1 def=1
 
-cd -
+cd - || clean_exit 1
+
 rm -rf mayi-mayi.$version
-rm -f mayi.$version.tar.gz
+rm -f $LOCALINSTALLER
 
-
-echo $version > $BP/dan/.version
+echo $version > $INSTALLERDIR/dan/.version
 
 echo OK
