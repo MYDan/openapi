@@ -43,4 +43,4 @@ else
     $INSTALLERDIR/dan/bootstrap/bin/bootstrap --uninstall
 fi
 
-echo OK
+echo mayi env OK

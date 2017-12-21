@@ -78,4 +78,4 @@ rm -f $LOCALINSTALLER
 
 echo $version > $INSTALLERDIR/dan/.version
 
-echo OK
+echo mayi update OK

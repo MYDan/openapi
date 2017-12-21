@@ -105,4 +105,4 @@ if [ -f $INSTALLERDIR/etc/env ];then
     $INSTALLERDIR/dan/bootstrap/bin/bootstrap --install
 fi
 
-echo OK
+echo mayi install OK
