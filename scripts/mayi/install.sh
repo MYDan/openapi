@@ -4,6 +4,17 @@ MAYIURL='https://github.com/MYDan/mayi/archive'
 VERSIONURL='https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/version'
 INSTALLERDIR='/opt/mydan'
 
+checktool() {
+    if ! type $1 >/dev/null 2>&1; then
+        echo "Need tool: $1"
+        exit 1;
+    fi
+}
+
+checktool curl
+checktool wget
+checktool tar
+
 if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
     exit;
@@ -53,21 +64,41 @@ else
     exit;
 fi
 
-wget -O mayi.$version.tar.gz $MAYIURL/mayi.$version.tar.gz
+clean_exit () {
+    [ -f $LOCALINSTALLER ] && rm $LOCALINSTALLER
+    exit $1
+}
 
-tar -zxvf mayi.$version.tar.gz
+LOCALINSTALLER=$(mktemp mayi.XXXXXX)
 
-cd mayi-mayi.$version
+wget -O $LOCALINSTALLER $MAYIURL/mayi.$version.tar.gz || clean_exit 1
 
-/opt/mydan/perl/bin/perl Makefile.PL
+tar -zxvf $LOCALINSTALLER || clean_exit 1
+
+cd mayi-mayi.$version || clean_exit 1
+
+
+# loop thru available well known Perl installations
+for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
+do
+    [ -x "$PERL" ] && echo "Using Perl <$PERL>" && break
+done
+
+if [ ! -x "$PERL" ]; then
+  echo "Need /usr/bin/perl or /usr/local/bin/perl to use $0"
+  clean_exit 2
+fi
+
+$PERL Makefile.PL
 make
 make install dan=1 box=1 def=1
 
-cd -
-rm -rf mayi-mayi.$version
-rm -f mayi.$version.tar.gz
+cd - || clean_exit 1
 
-echo $version > $INSTALLERDIR/dan/.version
+rm -rf mayi-mayi.$version
+rm -f $LOCALINSTALLER
+
+echo "$version:$PERL" > $INSTALLERDIR/dan/.version
 
 if [ -f $INSTALLERDIR/etc/env ];then
     $INSTALLERDIR/dan/bootstrap/bin/bootstrap --install
