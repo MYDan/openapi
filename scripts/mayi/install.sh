@@ -90,9 +90,9 @@ if [ ! -x "$PERL" ]; then
   clean_exit 2
 fi
 
-$PERL Makefile.PL
-make
-make install dan=1 box=1 def=1
+$PERL Makefile.PL || clean_exit 1
+make || clean_exit 1
+make install dan=1 box=1 def=1 || clean_exit 1
 
 cd - || clean_exit 1
 
