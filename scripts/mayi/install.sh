@@ -14,6 +14,8 @@ checktool() {
 checktool curl
 checktool wget
 checktool tar
+checktool make
+checktool rsync
 
 if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"

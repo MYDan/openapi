@@ -25,6 +25,8 @@ checktool wget
 checktool tar
 checktool cat
 checktool head
+checktool make
+checktool rsync
 
 version=$(curl -s $VERSIONURL)
 
