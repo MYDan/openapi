@@ -15,7 +15,7 @@ checktool() {
     fi
 }
 
-for T in "Linux:x86_64"
+for T in "Linux:x86_64" "CYGWIN_NT-6.1:x86_64"
 do
     o=$(echo $T|awk -F: '{print $1}')
     a=$(echo $T|awk -F: '{print $2}')
