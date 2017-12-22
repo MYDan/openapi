@@ -35,7 +35,7 @@ else
     exit;
 fi
 
-localversion=$(cat /$INSTALLERDIR/dan/.version )
+localversion=$(cat $INSTALLERDIR/dan/.version )
 
 # loop thru available well known Perl installations
 for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
