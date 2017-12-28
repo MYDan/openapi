@@ -81,14 +81,10 @@ tar -zxvf $LOCALINSTALLER || clean_exit 1
 cd mayi-mayi.$version || clean_exit 1
 
 
-# loop thru available well known Perl installations
-for PERL in "/opt/mydan/perl/bin/perl" "/usr/bin/perl" "/usr/local/bin/perl"
-do
-    [ -x "$PERL" ] && echo "Using Perl $PERL" && break
-done
+PERL=$INSTALLERDIR/perl/bin/perl
 
 if [ ! -x "$PERL" ]; then
-  echo "Need /opt/mydan/perl/bin/perl /usr/bin/perl or /usr/local/bin/perl to use $0"
+  echo "no find $PERL"
   clean_exit 2
 fi
 
