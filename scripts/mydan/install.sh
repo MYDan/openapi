@@ -5,30 +5,7 @@ if [ -f /opt/mydan/.lock ]; then
     exit;
 fi
 
-OS=$(uname)
-ARCH=$(uname -m)
-
-checktool() {
-    if ! type $1 >/dev/null 2>&1; then
-        echo "Need tool: $1"
-        exit 1;
-    fi
-}
-
-for T in "Linux:x86_64" "Linux:i686" "CYGWIN_NT-6.1:x86_64" "FreeBSD:amd64" "FreeBSD:i386"
-do
-    o=$(echo $T|awk -F: '{print $1}')
-    a=$(echo $T|awk -F: '{print $2}')
-    [ "X$OS" == "X$o" ] && [ "X$ARCH" == "X$a" ]&&  break
-done
-
-if [ "X$OS" == "X$o" ] && [ "X$ARCH" == "X$a" ]; then
-    curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/install.sh |bash || exit 1
-else
-    checktool cpan
-    cpan install MYDan || exit 1
-fi
-
+curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/install.sh |bash || exit 1
 curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/install.sh |bash || exit
 
 echo mydan install OK
