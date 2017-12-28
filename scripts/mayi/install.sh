@@ -85,7 +85,7 @@ PERL=$INSTALLERDIR/perl/bin/perl
 
 if [ ! -x "$PERL" ]; then
   echo "no find $PERL"
-  clean_exit 2
+  clean_exit 1
 fi
 
 $PERL Makefile.PL || clean_exit 1
