@@ -80,4 +80,8 @@ rm -f $LOCALINSTALLER
 
 echo $version > $INSTALLERDIR/dan/.version
 
+if [ ! -e /bin/mydan ];then
+    ln -fsn $INSTALLERDIR/bin/mydan /bin/mydan
+fi
+
 echo mayi update OK

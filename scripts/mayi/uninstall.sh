@@ -9,4 +9,8 @@ fi
 $INSTALLERDIR/dan/bootstrap/bin/bootstrap --uninstall
 rm -rf $INSTALLERDIR/{bin,box,dan,etc,var,tmp}
 
+if [ -L /bin/mydan ] && [ ! -e /bin/mydan ];then
+    rm -f /bin/mydan
+fi
+
 echo mayi uninstall OK

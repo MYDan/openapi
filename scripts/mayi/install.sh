@@ -107,4 +107,8 @@ if [ -f $INSTALLERDIR/etc/env ];then
     $INSTALLERDIR/dan/bootstrap/bin/bootstrap --install
 fi
 
+if [ ! -e /bin/mydan ];then
+    ln -fsn $INSTALLERDIR/bin/mydan /bin/mydan
+fi
+
 echo mayi install OK
