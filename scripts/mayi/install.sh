@@ -16,6 +16,7 @@ checktool wget
 checktool tar
 checktool make
 checktool rsync
+checktool md5sum
 
 if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
@@ -57,7 +58,9 @@ if [ -d "$INSTALLERDIR/dan" ]; then
     exit  
 fi
 
-version=$(curl -s $VERSIONURL)
+VVVV=$(curl -s $VERSIONURL)
+version=$(echo $VVVV|awk -F: '{print $1}')
+md5=$(echo $VVVV|awk -F: '{print $2}')
 
 if [[ $version =~ ^[0-9]{14}$ ]];then
     echo "mayi version: $version"
@@ -75,6 +78,12 @@ clean_exit () {
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
 
 wget -O $LOCALINSTALLER $MAYIURL/mayi.$version.tar.gz || clean_exit 1
+
+fmd5=$(md5sum $LOCALINSTALLER|awk '{print $1}')
+if [ "X$md5" != "X$fmd5" ];then
+    echo "mayi $version md5 nomatch"
+    exit 1;
+fi
 
 tar -zxvf $LOCALINSTALLER || clean_exit 1
 
