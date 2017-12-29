@@ -127,7 +127,7 @@ get_repo $ALLREPO
 if [ -z "$MYDan_REPO" ];then
     PACKTAR=$MAYIURL/mayi.$version.tar.gz
 else
-    PACKTAR="$MYDan_REPO/mayi/mayi.$version.tar.gz"
+    PACKTAR="$MYDan_REPO/mayi/data/mayi.$version.tar.gz"
 fi
 
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
