@@ -7,7 +7,7 @@ INSTALLERDIR='/opt/mydan'
 checktool() {
     if ! type $1 >/dev/null 2>&1; then
         echo "Need tool: $1"
-        exit 1;
+        exit 1
     fi
 }
 
@@ -20,7 +20,7 @@ checktool md5sum
 
 if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
-    exit;
+    exit 1;
 fi
 
 mkdir -p $INSTALLERDIR/etc
@@ -55,7 +55,7 @@ fi
 
 if [ -d "$INSTALLERDIR/dan" ]; then
     echo 'Already installed'
-    exit  
+    exit
 fi
 
 VVVV=$(curl -k -s $VERSIONURL)
@@ -66,7 +66,7 @@ if [[ $version =~ ^[0-9]{14}$ ]];then
     echo "mayi version: $version"
 else
     echo "get version fail"
-    exit;
+    exit 1
 fi
 
 clean_exit () {
@@ -137,7 +137,7 @@ wget --no-check-certificate -O $LOCALINSTALLER "$PACKTAR" || clean_exit 1
 fmd5=$(md5sum $LOCALINSTALLER|awk '{print $1}')
 if [ "X$md5" != "X$fmd5" ];then
     echo "mayi $version md5 nomatch"
-    exit 1;
+    exit 1
 fi
 
 tar -zxvf $LOCALINSTALLER || clean_exit 1

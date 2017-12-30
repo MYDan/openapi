@@ -6,7 +6,7 @@ INSTALLERDIR='/opt/mydan'
 
 if [ -f $INSTALLERDIR/dan/.lock ]; then
     echo "The mayi is locked"
-    exit;
+    exit 1
 fi
 
 if [ ! -d "$INSTALLERDIR/dan" ]; then
@@ -16,7 +16,7 @@ fi
 checktool() {
     if ! type $1 >/dev/null 2>&1; then
         echo "Need tool: $1"
-        exit 1;
+        exit 1
     fi
 }
 
@@ -37,7 +37,7 @@ if [[ $version =~ ^[0-9]{14}$ ]];then
     echo "mayi version: $version"
 else
     echo "get version fail"
-    exit;
+    exit 1
 fi
 
 localversion=$(cat $INSTALLERDIR/dan/.version )
@@ -53,7 +53,7 @@ localperl=$(head -n 1 $INSTALLERDIR/dan/tools/range )
 
 if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
     echo "This is the latest version of Mayi";
-    exit 1;
+    exit 1
 fi
 
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
