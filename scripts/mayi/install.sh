@@ -58,7 +58,7 @@ if [ -d "$INSTALLERDIR/dan" ]; then
     exit  
 fi
 
-VVVV=$(curl -s $VERSIONURL)
+VVVV=$(curl -k -s $VERSIONURL)
 version=$(echo $VVVV|awk -F: '{print $1}')
 md5=$(echo $VVVV|awk -F: '{print $2}')
 
@@ -95,7 +95,7 @@ get_repo ()
     do
         read -u1000
         {
-            s=$(curl --connect-timeout 1 ${ALLREPO[$i]}/check/health 2>/dev/null|grep 'ok'|wc -l)
+            s=$(curl -k --connect-timeout 1 ${ALLREPO[$i]}/check/health 2>/dev/null|grep 'ok'|wc -l)
             echo "$i:$s" >&1000
         }&
     done
@@ -132,7 +132,7 @@ fi
 
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
 
-wget -O $LOCALINSTALLER "$PACKTAR" || clean_exit 1
+wget --no-check-certificate -O $LOCALINSTALLER "$PACKTAR" || clean_exit 1
 
 fmd5=$(md5sum $LOCALINSTALLER|awk '{print $1}')
 if [ "X$md5" != "X$fmd5" ];then

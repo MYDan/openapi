@@ -5,7 +5,7 @@ if [ -f /opt/mydan/.lock ]; then
     exit;
 fi
 
-curl -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/uninstall.sh |bash || exit 1
-curl -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/uninstall.sh |bash || exit
+curl -k -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/uninstall.sh |bash || exit 1
+curl -k -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/uninstall.sh |bash || exit 1
 
 echo mydan uninstall OK
