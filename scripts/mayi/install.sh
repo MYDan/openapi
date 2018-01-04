@@ -95,7 +95,7 @@ get_repo ()
     do
         read -u1000
         {
-            s=$(curl -k --connect-timeout 1 ${ALLREPO[$i]}/check/health 2>/dev/null|grep 'ok'|wc -l)
+            s=$(curl -k --connect-timeout 1 -I ${ALLREPO[$i]}/mayi.$version.tar.gz 2>/dev/null|head -n 1|grep -v 404|wc -l)
             echo "$i:$s" >&1000
         }&
     done
@@ -115,19 +115,19 @@ get_repo ()
     exec 1000>&-
     exec 1000<&-
 
-    if [ "X$ID" != "X" ] && [ "X$ID" != "X0" ];then
+    if [ "X$ID" != "X" ];then
         MYDan_REPO=${ALLREPO[$ID]}
     fi
 }
 
-ALLREPO=( https://raw.githubusercontent.com/MYDan/openapi/master http://180.153.186.60 http://223.166.174.60 )
+ALLREPO=( $MAYIURL http://180.153.186.60/mayi/data http://223.166.174.60/mayi/data )
 get_repo $ALLREPO
 
-
 if [ -z "$MYDan_REPO" ];then
-    PACKTAR=$MAYIURL/mayi.$version.tar.gz
+    echo "nofind mayi.$version.tar.gz on all repo"
+    exit 1
 else
-    PACKTAR="$MYDan_REPO/mayi/data/mayi.$version.tar.gz"
+    PACKTAR="$MYDan_REPO/mayi.$version.tar.gz"
 fi
 
 LOCALINSTALLER=$(mktemp mayi.XXXXXX)
