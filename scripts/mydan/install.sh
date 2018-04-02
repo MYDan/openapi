@@ -5,6 +5,9 @@ if [ -f /opt/mydan/.lock ]; then
     exit;
 fi
 
+export MYDAN_REPO_PUBLIC="http://180.153.186.60 http://223.166.174.60"
+#MYDAN_REPO_PRIVATE
+
 curl -k -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/install.sh |bash || exit 1
 curl -k -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/install.sh |bash || exit 1
 
