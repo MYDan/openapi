@@ -120,7 +120,8 @@ get_repo ()
     fi
 }
 
-ALLREPO=( $MAYIURL http://180.153.186.60/mayi/data http://223.166.174.60/mayi/data )
+MYDAN_REPO=$(echo $MYDAN_REPO_PRIVATE $MYDAN_REPO_PUBLIC|xargs -n 1|awk '{print $0"/mayi/data"}'|xargs -n 100)
+ALLREPO=( $MAYIURL $MYDAN_REPO )
 get_repo $ALLREPO
 
 if [ -z "$MYDan_REPO" ];then
