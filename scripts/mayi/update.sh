@@ -82,7 +82,7 @@ get_repo ()
     do
         read -u1000
         {
-            s=$(curl -k --connect-timeout 1 -I ${ALLREPO[$i]}/mayi.$version.tar.gz 2>/dev/null|head -n 1|grep -v 404|wc -l)
+            s=$(curl -k --connect-timeout 2 -I ${ALLREPO[$i]}/mayi.$version.tar.gz 2>/dev/null|head -n 1|awk '/302|200/'|wc -l)
             echo "$i:$s" >&1000
         }&
     done
