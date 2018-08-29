@@ -134,7 +134,8 @@ fi
 
 if [ -z "$MYDan_REPO" ];then
     echo "nofind mayi.$version.tar.gz on all repo"
-    exit 1
+    #exit 1
+    PACKTAR="$MAYIURL/mayi.$version.tar.gz"
 else
     PACKTAR="$MYDan_REPO/mayi.$version.tar.gz"
 fi
