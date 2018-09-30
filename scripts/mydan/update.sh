@@ -43,7 +43,13 @@ if [ "X$OS" == "XDarwin" ] && [ "X$ARCH" == "Xx86_64" ]; then
     git clone https://github.com/MYDan/mayi.git
     cd mayi
 
-    cat Makefile.PL|grep ::|grep '=> \d'|awk '{print $1}'|xargs -I{} cpan install {} || echo fail
+    set +e
+    for i in `cat Makefile.PL|grep ::|grep '=> \d'|awk '{print $1}'|sed "s/'//g"`; do
+        echo "use $i"
+        perl -e "use $i" 2>/dev/null || cpan install $i
+    done
+
+    set -e
 
     perl Makefile.PL
     make
