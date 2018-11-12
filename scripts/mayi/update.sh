@@ -30,6 +30,13 @@ checktool rsync
 checktool md5sum
 
 VVVV=$(curl -k -s $VERSIONURL)
+
+if [ "X$MYDanInstallLatestVersion" == "X1" ]; then
+    VVVV="00000000000000:00000000000000000000000000000000"
+else
+    VVVV=$(curl -k -s $VERSIONURL)
+fi
+
 version=$(echo $VVVV|awk -F: '{print $1}')
 md5=$(echo $VVVV|awk -F: '{print $2}')
 
@@ -129,10 +136,12 @@ fi
 
 wget --no-check-certificate -O $LOCALINSTALLER "$PACKTAR" || clean_exit 1
 
-fmd5=$(md5sum $LOCALINSTALLER|awk '{print $1}')
-if [ "X$md5" != "X$fmd5" ];then
-    echo "mayi $version md5 nomatch"
-    exit 1;
+if [ "X$md5" != "X00000000000000000000000000000000" ];then
+    fmd5=$(md5sum $LOCALINSTALLER|awk '{print $1}')
+    if [ "X$md5" != "X$fmd5" ];then
+        echo "mayi $version md5 nomatch"
+        exit 1;
+    fi
 fi
 
 tar -zxvf $LOCALINSTALLER || clean_exit 1
