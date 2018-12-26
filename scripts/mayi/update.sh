@@ -56,9 +56,10 @@ if [ ! -x "$PERL" ]; then
   clean_exit 1
 fi
 
-localperl=$(head -n 1 $INSTALLERDIR/dan/tools/range )
+#localperl=$(head -n 1 $INSTALLERDIR/dan/tools/range )
 
-if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
+#if [ "X$localversion" == "X$version" ] && [ "X$localperl" == "X#!$PERL" ]; then
+if [ "X$localversion" == "X$version" ]; then
     echo "This is the latest version of Mayi";
     exit 1
 fi
