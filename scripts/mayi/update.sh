@@ -33,6 +33,7 @@ VVVV=$(curl -k -s $VERSIONURL)
 
 if [ "X$MYDanInstallLatestVersion" == "X1" ]; then
     VVVV="00000000000000:00000000000000000000000000000000"
+    rm $INSTALLERDIR/dan/.version
 else
     VVVV=$(curl -k -s $VERSIONURL)
 fi
