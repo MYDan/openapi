@@ -3,7 +3,26 @@
 #export MYDAN_REPO_PUBLIC="http://180.153.186.60 http://223.166.174.60"
 #MYDAN_REPO_PRIVATE
 
-for T in "Linux:x86_64" "Linux:i686" "CYGWIN_NT-6.1:x86_64" "FreeBSD:amd64" "FreeBSD:i386"
+LIST=("Linux:x86_64" "Linux:i686" "CYGWIN_NT-6.1:x86_64" "FreeBSD:amd64" "FreeBSD:i386")
+
+if [ "X$1" != "X" ];then
+    for T in "${LIST[@]}"
+    do
+        O=$T
+        [ "X$T" == "X$1" ] && break
+    done
+
+    if [ "X$1" != "X$O" ];then
+        echo "$1 Not supported !"
+        echo "${LIST[@]}"
+        echo ERROR
+        exit 1
+    fi
+    LIST=( $1 )
+fi
+
+
+for T in "${LIST[@]}"
 do
 	curl -k -s https://raw.githubusercontent.com/MYDan/perl/master/scripts/package.sh |bash -s $T|| exit 1
 done
@@ -12,14 +31,16 @@ curl -k -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/p
 
 
 packageInstall=packageInstall.sh
-wget --no-check-certificate -O  $packageInstall "https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mydan/packageInstall.sh" || clean_exit 1
+if [ ! -f $packageInstall ]; then
+    wget --no-check-certificate -O  $packageInstall "https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mydan/packageInstall.sh" || clean_exit 1
+fi
 
 for M in `ls mydan.mayi.*`
 do
 	mayiVersion=$(echo $M|awk -F. '{print $3}')
 	if [[ $mayiVersion =~ ^[0-9]{14}$ ]];then
     	echo "mayi version: $mayiVersion"
-        for T in "Linux:x86_64" "Linux:i686" "CYGWIN_NT-6.1:x86_64" "FreeBSD:amd64" "FreeBSD:i386"
+        for T in "${LIST[@]}"
         do
             OS=$(echo $T|awk -F: '{print $1}')
             ARCH=$(echo $T|awk -F: '{print $2}')
