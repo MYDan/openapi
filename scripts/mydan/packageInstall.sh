@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 INFO=$(echo $0|sed  's/.*mydan.agent.//'|sed 's/.run.*//')
 
@@ -95,6 +96,8 @@ make  || clean_exit 1
 make install dan=1 box=1 def=1 || clean_exit 1
 
 cd - || clean_exit 1
+
+cp $TMPPATH/key/*.pub $INSTALLERDIR/etc/agent/auth/
 
 rm -rf $TMPPATH
 

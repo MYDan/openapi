@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 #export MYDAN_REPO_PUBLIC="http://180.153.186.60 http://223.166.174.60"
 #MYDAN_REPO_PRIVATE
@@ -32,8 +33,11 @@ curl -k -s https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mayi/p
 
 packageInstall=packageInstall.sh
 if [ ! -f $packageInstall ]; then
-    wget --no-check-certificate -O  $packageInstall "https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mydan/packageInstall.sh" || clean_exit 1
+    wget --no-check-certificate -O  $packageInstall "https://raw.githubusercontent.com/MYDan/openapi/master/scripts/mydan/packageInstall.sh" || exit 1
 fi
+
+mkdir -p key
+cp /opt/mydan/etc/agent/auth/*.pub key/
 
 for M in `ls mydan.mayi.*`
 do
@@ -53,11 +57,11 @@ do
             if [[ "X$LCID" != "X" ]];then
 				DIST=$OS.$ARCH.$LCID
             fi
-			tar -zcvf mydan.package.$mayiVersion.$DIST mydan.mayi.$mayiVersion  mydan.perl.$DIST
+			tar -zcvf mydan.package.$mayiVersion.$DIST mydan.mayi.$mayiVersion  mydan.perl.$DIST key
 			/opt/mydan/dan/tools/xtar --script $packageInstall --package  mydan.package.$mayiVersion.$DIST --output  mydan.agent.$mayiVersion.$DIST
         done
 	else
-    	echo "get version fail"
+    	echo "[Warn]get version fail"
 	fi
 done
 
