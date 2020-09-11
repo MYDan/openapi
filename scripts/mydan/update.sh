@@ -40,7 +40,7 @@ if [ "X$OS" == "XDarwin" ] && [ "X$ARCH" == "Xx86_64" ]; then
     set -e
     cd /opt/mydan
     rm -rf mayi
-    git clone https://github.com/MYDan/mayi.git
+    git clone -b release-2.0.0 https://github.com/MYDan/mayi.git
     cd mayi
 
     set +e
